@@ -13,7 +13,7 @@ public class PercolationStats {
     private int trials;
 
     public PercolationStats(int num, int trials) {
-        if (n <= 0 || trials <= 0) {
+        if (num <= 0 || trials <= 0) {
             throw new java.lang.IllegalArgumentException();
         }
         n = num;
@@ -30,8 +30,8 @@ public class PercolationStats {
             int count = 0;
 
             while (!p.percolates()) {
-                int row = StdRandom.uniform(100);
-                int col = StdRandom.uniform(100);
+                int row = StdRandom.uniform(100) + 1;
+                int col = StdRandom.uniform(100) + 1;
                 if (p.isOpen(row, col)) {
                     continue;
                 }
