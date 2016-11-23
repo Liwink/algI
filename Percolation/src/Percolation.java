@@ -54,17 +54,17 @@ public class Percolation {
             throw new java.lang.IndexOutOfBoundsException();
         }
         opened[getId(row, col)] = true;
-        if (checkValid(row - 1, col - 1) && isOpen(row - 1, col - 1)) {
-            union(row, col, row - 1, col - 1);
+        if (checkValid(row, col - 1) && isOpen(row, col - 1)) {
+            union(row, col, row, col - 1);
         }
-        if (checkValid(row + 1, col - 1) && isOpen(row + 1, col - 1)) {
-            union(row, col, row + 1, col - 1);
+        if (checkValid(row, col + 1) && isOpen(row, col + 1)) {
+            union(row, col, row, col + 1);
         }
-        if (checkValid(row + 1, col + 1) && isOpen(row + 1, col + 1)) {
-            union(row, col, row + 1, col + 1);
+        if (checkValid(row + 1, col) && isOpen(row + 1, col)) {
+            union(row, col, row + 1, col);
         }
-        if (checkValid(row - 1, col + 1) && isOpen(row - 1, col + 1)) {
-            union(row, col, row - 1, col + 1);
+        if (checkValid(row - 1, col) && isOpen(row - 1, col)) {
+            union(row, col, row - 1, col);
         }
     }
 
@@ -96,6 +96,7 @@ public class Percolation {
     }
 
     private void union(int row1, int col1, int row2, int col2) {
+//        System.out.println(row1 + " " + col1 + " " + row2 + " " + col2 );
         if (!checkValid(row1, col1)) {
             throw new java.lang.IndexOutOfBoundsException();
         }
@@ -117,15 +118,22 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        System.out.print("start!");
+        System.out.println("start!");
 
-        Percolation pt = new Percolation(100);
-        assert !pt.isFull(1, 1);
-        pt.open(2, 1);
-        assert !pt.isFull(1, 1);
-        assert !pt.isFull(2, 1);
-        pt.open(1, 1);
-        assert pt.isFull(2, 1);
+        Percolation pt = new Percolation(50);
+//        assert !pt.isFull(1, 48);
+        System.out.println(pt.isFull(1, 48) + " sure be false");
+        pt.open(1, 48);
+//        assert !pt.isFull(1, 1);
+        System.out.println(pt.isFull(1, 48) + " sure be true");
+        pt.open(3, 48);
+//        assert !pt.isFull(3, 48);
+        System.out.println(pt.isFull(3, 48) + " sure be false");
+        pt.open(2, 48);
+//        assert pt.isFull(2, 48);
+        System.out.println(pt.isFull(2, 48) + " sure be true");
+//        assert pt.isFull(3, 48);
+        System.out.println(pt.isFull(3, 48) + " sure be true");
 
         Percolation p = new Percolation(100);
         int i = 0;
