@@ -24,8 +24,8 @@ public class Percolation {
                 index = this.getId(j, i);
                 if (j == 1) {
                     id[index] = 0;
-                } else if (j == n) {
-                    id[index] = n * n - 1;
+//                } else if (j == n) {
+//                    id[index] = n * n - 1;
                 } else {
                     id[index] = index;
                     size[index] = 1;
@@ -34,7 +34,7 @@ public class Percolation {
             }
         }
         size[0] = n;
-        size[n * n - 1] = n;
+//        size[n * n - 1] = n;
     }
 
     private boolean checkValid(int row, int col) {
@@ -83,7 +83,12 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        return isFull(n, n);
+        for (int i = 1; i <= n; i++){
+            if (isFull(n, i)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int root(int row, int col) {
@@ -96,7 +101,6 @@ public class Percolation {
     }
 
     private void union(int row1, int col1, int row2, int col2) {
-//        System.out.println(row1 + " " + col1 + " " + row2 + " " + col2 );
         if (!checkValid(row1, col1)) {
             throw new java.lang.IndexOutOfBoundsException();
         }
@@ -121,18 +125,13 @@ public class Percolation {
         System.out.println("start!");
 
         Percolation pt = new Percolation(50);
-//        assert !pt.isFull(1, 48);
         System.out.println(pt.isFull(1, 48) + " sure be false");
         pt.open(1, 48);
-//        assert !pt.isFull(1, 1);
         System.out.println(pt.isFull(1, 48) + " sure be true");
         pt.open(3, 48);
-//        assert !pt.isFull(3, 48);
         System.out.println(pt.isFull(3, 48) + " sure be false");
         pt.open(2, 48);
-//        assert pt.isFull(2, 48);
         System.out.println(pt.isFull(2, 48) + " sure be true");
-//        assert pt.isFull(3, 48);
         System.out.println(pt.isFull(3, 48) + " sure be true");
 
         Percolation p = new Percolation(100);
