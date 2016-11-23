@@ -1,5 +1,3 @@
-//import java.lang.*;
-
 import edu.princeton.cs.algs4.StdRandom;
 
 public class Percolation {
@@ -23,7 +21,7 @@ public class Percolation {
 
         for (int j = 1; j <= n; j++) {
             for (int i = 1; i <= n; i++) {
-                index = this.getId(i, j);
+                index = this.getId(j, i);
                 if (j == 1) {
                     id[index] = 0;
                 } else if (j == n) {
@@ -39,49 +37,49 @@ public class Percolation {
         size[n * n - 1] = n;
     }
 
-    private boolean check_valid(int row, int col) {
+    private boolean checkValid(int row, int col) {
         return row > 0 && row <= n && col <= n && col > 0;
     }
 
     private int getId(int row, int col) {
-        if (!check_valid(row, col)) {
+        if (!checkValid(row, col)) {
             System.out.println("error:" + row + col);
             throw new java.lang.IndexOutOfBoundsException();
         }
-        return row + n * (col - 1) - 1;
+        return col + n * (row - 1) - 1;
     }
 
     public void open(int row, int col) {
-        if (!check_valid(row, col)) {
+        if (!checkValid(row, col)) {
             throw new java.lang.IndexOutOfBoundsException();
         }
         opened[getId(row, col)] = true;
-        if (check_valid(row - 1, col - 1) && isOpen(row - 1, col - 1)) {
+        if (checkValid(row - 1, col - 1) && isOpen(row - 1, col - 1)) {
             union(row, col, row - 1, col - 1);
         }
-        if (check_valid(row + 1, col - 1) && isOpen(row + 1, col - 1)) {
+        if (checkValid(row + 1, col - 1) && isOpen(row + 1, col - 1)) {
             union(row, col, row + 1, col - 1);
         }
-        if (check_valid(row + 1, col + 1) && isOpen(row + 1, col + 1)) {
+        if (checkValid(row + 1, col + 1) && isOpen(row + 1, col + 1)) {
             union(row, col, row + 1, col + 1);
         }
-        if (check_valid(row - 1, col + 1) && isOpen(row - 1, col + 1)) {
+        if (checkValid(row - 1, col + 1) && isOpen(row - 1, col + 1)) {
             union(row, col, row - 1, col + 1);
         }
     }
 
     public boolean isOpen(int row, int col) {
-        if (!check_valid(row, col)) {
+        if (!checkValid(row, col)) {
             throw new java.lang.IndexOutOfBoundsException();
         }
         return opened[getId(row, col)];
     }
 
     public boolean isFull(int row, int col) {
-        if (!check_valid(row, col)) {
+        if (!checkValid(row, col)) {
             throw new java.lang.IndexOutOfBoundsException();
         }
-        return (root(row, col) == root(1, 1));
+        return isOpen(row, col) && (root(row, col) == root(1, 1));
     }
 
     public boolean percolates() {
@@ -98,10 +96,10 @@ public class Percolation {
     }
 
     private void union(int row1, int col1, int row2, int col2) {
-        if (!check_valid(row1, col1)) {
+        if (!checkValid(row1, col1)) {
             throw new java.lang.IndexOutOfBoundsException();
         }
-        if (!check_valid(row2, col2)) {
+        if (!checkValid(row2, col2)) {
             throw new java.lang.IndexOutOfBoundsException();
         }
 
@@ -120,10 +118,17 @@ public class Percolation {
 
     public static void main(String[] args) {
         System.out.print("start!");
+
+        Percolation pt = new Percolation(100);
+        assert !pt.isFull(1, 1);
+        pt.open(2, 1);
+        assert !pt.isFull(1, 1);
+        assert !pt.isFull(2, 1);
+        pt.open(1, 1);
+        assert pt.isFull(2, 1);
+
         Percolation p = new Percolation(100);
-
         int i = 0;
-
         while (!p.percolates()) {
             int row = StdRandom.uniform(100) + 1;
             int col = StdRandom.uniform(100) + 1;
