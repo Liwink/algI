@@ -30,8 +30,8 @@ public class PercolationStats {
             int count = 0;
 
             while (!p.percolates()) {
-                int row = StdRandom.uniform(100) + 1;
-                int col = StdRandom.uniform(100) + 1;
+                int row = StdRandom.uniform(n) + 1;
+                int col = StdRandom.uniform(n) + 1;
                 if (p.isOpen(row, col)) {
                     continue;
                 }
