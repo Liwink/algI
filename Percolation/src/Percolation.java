@@ -85,6 +85,9 @@ public class Percolation {
 
     public boolean percolates() {
 //        System.out.println(max[un.find(0)]);
+        if (n == 1) {
+            return opened[0];
+        }
         return max[un.find(0)] > n * (n - 1) - 1;
     }
 
