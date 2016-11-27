@@ -109,6 +109,7 @@ public class Deque<Item> implements Iterable<Item> {
         while (!d.isEmpty()) {
 //            System.out.println("First: " + d.removeFirst());
             System.out.println("Last : " + d.removeLast());
+            System.out.println(d.size());
         }
     }
 
