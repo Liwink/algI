@@ -42,7 +42,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     public Item dequeue() {
         if (isEmpty()) throw new NoSuchElementException();
-        shuffle(a, n);
+        shuffle(a);
         Item item = a[n-1];
         n--;
         a[n] = null;
@@ -51,18 +51,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public Item sample() {
+        if (isEmpty()) throw new NoSuchElementException();
         return a[StdRandom.uniform(n)];
     }
 
-    private void shuffle(Item[] ns, int count) {
+    private void shuffle(Item[] ns) {
         if (ns == null) throw new IllegalArgumentException("argument array is null");
-        if (count <= 1) return;
-        for (int i = 0; i < count; i++) {
-            int r = i + StdRandom.uniform(count- i);     // between i and n-1
-            Item temp = ns[i];
-            ns[i] = ns[r];
-            ns[r] = temp;
-        }
+        if (n <= 1) return;
+        int i = StdRandom.uniform(n);
+        Item temp = ns[i];
+        ns[i] = ns[n-1];
+        ns[n-1] = temp;
     }
 
     public Iterator<Item> iterator() {
