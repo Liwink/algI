@@ -8,6 +8,8 @@
 # self define
 *.zip
 */.idea/
+*/out/
+*.txt
 
 # User-specific stuff:
 .idea/workspace.xml
