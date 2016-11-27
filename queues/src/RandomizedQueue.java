@@ -43,7 +43,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Item dequeue() {
         if (isEmpty()) throw new NoSuchElementException();
         shuffle(a);
-        Item item = a[n-1];
+        Item item = a[n - 1];
         n--;
         a[n] = null;
         if (n > 0 && n == a.length / 4) resize(a.length / 2);
@@ -60,8 +60,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (n <= 1) return;
         int i = StdRandom.uniform(n);
         Item temp = ns[i];
-        ns[i] = ns[n-1];
-        ns[n-1] = temp;
+        ns[i] = ns[n - 1];
+        ns[n - 1] = temp;
     }
 
     public Iterator<Item> iterator() {
@@ -73,6 +73,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         public ArrayIterator() {
             i = 0;
+            if (a == null) throw new IllegalArgumentException("argument array is null");
+            for (int i = 0; i < n; i++) {
+                int r = i + StdRandom.uniform(n - i);
+                Item temp = a[i];
+                a[i] = a[r];
+                a[r] = temp;
+            }
         }
 
         public boolean hasNext() {
@@ -97,12 +104,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         for (int i = 0; i < n; i++) {
             q.enqueue(i);
         }
-        for (int i = 0; i < n; i++) {
-            System.out.println("sample: " + q.sample());
-        }
-        for (int i = 0; i < 4; i++) {
-            System.out.println("dequeue: " + q.dequeue());
-        }
+        int[] count = new int[3];
+//        for (int i = 0; i < 1000; i++) {
+//            count[q.sample()] += 1;
+//        }
+//        for (int i = 0; i < n; i++) {
+//            System.out.println(i + "counts: " + count[i]);
+//        }
+
+
+//        for (int i = 0; i < 4; i++) {
+//            System.out.println("dequeue: " + q.dequeue());
+//        }
 //        this.shuffle(ns, 1, 8);
 //        System.out.println(ns);
         for (int i : q
