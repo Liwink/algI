@@ -70,15 +70,20 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class ArrayIterator implements Iterator<Item> {
         private int i;
+        private Item[] array;
 
         public ArrayIterator() {
             i = 0;
             if (a == null) throw new IllegalArgumentException("argument array is null");
+            array = (Item[]) new Object[n];
+            for (int i = 0; i < n; i++) {
+                array[i] = a[i];
+            }
             for (int i = 0; i < n; i++) {
                 int r = i + StdRandom.uniform(n - i);
-                Item temp = a[i];
-                a[i] = a[r];
-                a[r] = temp;
+                Item temp = array[i];
+                array[i] = array[r];
+                array[r] = temp;
             }
         }
 
@@ -92,19 +97,19 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         public Item next() {
             if (!hasNext()) throw new NoSuchElementException();
-            return a[i++];
+            return array[i++];
         }
     }
 
     public static void main(String[] args) {
-        RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
-
-        int n = 10;
+//        RandomizedQueue<Integer> q = new RandomizedQueue<Integer>();
+//
+//        int n = 10;
 //        int[] ns = new int[n];
-        for (int i = 0; i < n; i++) {
-            q.enqueue(i);
-        }
-        int[] count = new int[3];
+//        for (int i = 0; i < n; i++) {
+//            q.enqueue(i);
+//        }
+//        int[] count = new int[3];
 //        for (int i = 0; i < 1000; i++) {
 //            count[q.sample()] += 1;
 //        }
@@ -118,9 +123,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 //        }
 //        this.shuffle(ns, 1, 8);
 //        System.out.println(ns);
-        for (int i : q
-                ) {
-            System.out.print(i);
-        }
+//        for (int i : q
+//                ) {
+//            System.out.print(i);
+//        }
+//        Iterator iterator = q.iterator();
+//        while (iterator.hasNext()) {
+//            Iterator innerIt = q.iterator();
+//            while (innerIt.hasNext()) {
+//                System.out.print(innerIt.next() + " ");
+//            }
+//            System.out.println();
+//            System.out.println(iterator.next());
+//        }
     }
 }

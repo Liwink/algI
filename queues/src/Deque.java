@@ -100,7 +100,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
-        Deque d = new Deque<Integer> ();
+//        Deque d = new Deque<Integer> ();
 //        d.addLast(0);
 //        d.removeFirst();
 //        System.out.println(d.isEmpty());
