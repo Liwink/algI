@@ -8,6 +8,7 @@
  *
  ******************************************************************************/
 
+import java.util.Arrays;
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
 
@@ -125,6 +126,7 @@ public class Point implements Comparable<Point> {
      */
     public static void main(String[] args) {
         /* YOUR CODE HERE */
+        /*
         Point p1 = new Point(1, 2);
         Point p2 = new Point(2, 3);
         Point p3 = new Point(2, 2);
@@ -133,6 +135,35 @@ public class Point implements Comparable<Point> {
         System.out.println(p2.slopeTo(p3) + " is positive infinity");
         System.out.println(p1.slopeTo(p3) + " is 0");
         System.out.println((p2.slopeTo(p3) > p1.slopeTo(p1)) + " is true");
+
+        Point[] points = new Point[3];
+        points[0] = p1;
+        points[1] = p2;
+        points[2] = p3;
+        for (Point p:
+             points) {
+            System.out.print(p);
+        }
+        System.out.println("");
+        Arrays.sort(points, p1.slopeOrder());
+        for (Point p:
+                points) {
+            System.out.print(p);
+        }
+        System.out.println("");
+        Arrays.sort(points);
+        for (Point p:
+                points) {
+            System.out.print(p);
+        }
+        System.out.println("");
+        Arrays.sort(points, p2.slopeOrder());
+        for (Point p:
+                points) {
+            System.out.print(p);
+        }
+        System.out.println("");
+        */
     }
 
 }
