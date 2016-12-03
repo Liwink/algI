@@ -18,8 +18,8 @@ public class FastCollinearPoints {
 
     public FastCollinearPoints(Point[] points) {
         Arrays.sort(points);
-        for (Point p:
-             points) {
+        for (Point p :
+                points) {
             System.out.println(p);
         }
 
@@ -31,7 +31,7 @@ public class FastCollinearPoints {
             double current = Double.NEGATIVE_INFINITY;
             int currentCount = COUNT;
 
-            for (int n = i; n< len; n++) {
+            for (int n = i; n < len; n++) {
                 resortPoints[n] = points[n];
             }
             Arrays.sort(resortPoints, i, len, resortPoints[i].slopeOrder());
