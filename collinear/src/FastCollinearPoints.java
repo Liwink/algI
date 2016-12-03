@@ -25,10 +25,6 @@ public class FastCollinearPoints {
         for (int i = 0; i < len; i++) points[i] = ps[i];
 
         Arrays.sort(points);
-        for (Point p :
-                points) {
-            System.out.println(p);
-        }
 
         Point[] resortPoints = new Point[len];
 
@@ -85,28 +81,6 @@ public class FastCollinearPoints {
     }
 
     public static void main(String[] args) {
-//        Point[] ps = new Point[] {new Point(1,2), new Point(2,3), new Point(3,4), new Point(4,5), new Point(5,6)};
-//        FastCollinearPoints col = new FastCollinearPoints(ps);
-//        System.out.println(col.numberOfSegments());
-        /*
-        System.out.println(args[0]);
-        In in = new In(args[0]);      // input file
-        int n = in.readInt();         // n-by-n percolation system
-        Point[] ps = new Point[n];
-        int m = 0;
-        while (!in.isEmpty()) {
-            int i = in.readInt();
-            int j = in.readInt();
-            ps[m] = new Point(i, j);
-            m++;
-        }
-
-        FastCollinearPoints col = new FastCollinearPoints(ps);
-        LineSegment[] segments = col.segments();
-        for (LineSegment s: segments) s.draw();
-        System.out.println("num: " + col.numberOfSegments());
-        */
-
         In in = new In(args[0]);
         int n = in.readInt();
         Point[] points = new Point[n];
