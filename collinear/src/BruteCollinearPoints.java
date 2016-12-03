@@ -15,6 +15,7 @@ public class BruteCollinearPoints {
     private Queue<Point> storedPoints = new Queue<Point>();
     private Point[] points;
 
+
     public BruteCollinearPoints(Point[] ps) {
         int len = ps.length;
         points = new Point[len];
