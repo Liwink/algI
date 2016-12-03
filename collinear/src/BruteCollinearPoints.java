@@ -13,13 +13,15 @@ import java.util.Arrays;
 public class BruteCollinearPoints {
     private Stack<LineSegment> lineSegments = new Stack<LineSegment>();
     private Queue<Point> storedPoints = new Queue<Point>();
+    private Point[] points;
 
-    private int COUNT = 2;
+    public BruteCollinearPoints(Point[] ps) {
+        int len = ps.length;
+        points = new Point[len];
+        for (int i = 0; i < len; i++) points[i] = ps[i];
 
-    public BruteCollinearPoints(Point[] points) {
         Arrays.sort(points);
 
-        int len = points.length;
         Queue<Double> slopes;
 
         double slope;

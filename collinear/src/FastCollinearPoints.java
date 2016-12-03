@@ -6,6 +6,8 @@ import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
+import javax.swing.text.Position;
+
 /**
  * Created by Liwink on 12/2/16.
  */
@@ -13,17 +15,21 @@ import edu.princeton.cs.algs4.StdOut;
 public class FastCollinearPoints {
     private Stack<LineSegment> lineSegments = new Stack<LineSegment>();
     private Queue<Point> storedPoints = new Queue<Point>();
+    private Point[] points;
 
     private int COUNT = 2;
 
-    public FastCollinearPoints(Point[] points) {
+    public FastCollinearPoints(Point[] ps) {
+        int len = ps.length;
+        points = new Point[len];
+        for (int i = 0; i < len; i++) points[i] = ps[i];
+
         Arrays.sort(points);
         for (Point p :
                 points) {
             System.out.println(p);
         }
 
-        int len = points.length;
         Point[] resortPoints = new Point[len];
 
         for (int i = 0; i < (len - 3); i++) {
