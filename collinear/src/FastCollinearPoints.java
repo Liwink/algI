@@ -26,7 +26,7 @@ public class FastCollinearPoints {
 
         Arrays.sort(points);
         for (int i = 1; i < len; i++) {
-            if (points[i].slopeTo(points[i-1]) == Double.NEGATIVE_INFINITY) throw new IllegalArgumentException();
+            if (points[i].compareTo(points[i-1]) == 0) throw new IllegalArgumentException();
         }
 
         Point[] resortPoints = new Point[len];
