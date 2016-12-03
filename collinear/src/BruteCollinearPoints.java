@@ -24,6 +24,9 @@ public class BruteCollinearPoints {
         }
 
         Arrays.sort(points);
+        for (int i = 1; i < len; i++) {
+            if (points[i].slopeTo(points[i-1]) == Double.NEGATIVE_INFINITY) throw new IllegalArgumentException();
+        }
 
         Queue<Double> slopes;
 
@@ -80,6 +83,7 @@ public class BruteCollinearPoints {
     }
 
     public static void main(String[] args) {
+
         In in = new In(args[0]);
         int n = in.readInt();
         Point[] points = new Point[n];
