@@ -1,5 +1,9 @@
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.Arrays;
 
 /**
@@ -7,14 +11,13 @@ import java.util.Arrays;
  */
 
 public class BruteCollinearPoints {
-    Point[] points;
-    Queue<LineSegment> lineSegments = new Queue<LineSegment>();
-    Queue<Point> storedPoints = new Queue<Point>();
+    private Stack<LineSegment> lineSegments = new Stack<LineSegment>();
+    private Queue<Point> storedPoints = new Queue<Point>();
 
-    int COUNT = 2;
+    private int COUNT = 2;
 
     public BruteCollinearPoints(Point[] points) {
-        this.points = points;
+        Arrays.sort(points);
 
         int len = points.length;
         Queue<Double> slopes;
@@ -22,31 +25,29 @@ public class BruteCollinearPoints {
         double slope;
         for (int i = 0; i < (len - 3); i++) {
             slopes = new Queue<Double>();
-            for (int j = i+1; j < (len - 2); j++) {
+            for (int j = i + 1; j < (len - 2); j++) {
                 slope = points[i].slopeTo(points[j]);
-                for (int n = j+1; n < (len - 1); n++) {
+                for (int n = j + 1; n < (len - 1); n++) {
                     if (points[i].slopeTo(points[n]) != slope) continue;
                     else {
-                        for (int m = n+1; m < len; m++) {
+                        for (int m = n + 1; m < len; m++) {
                             if (points[i].slopeTo(points[m]) != slope) continue;
                             else {
                                 boolean check = true;
                                 for (Point l : storedPoints) {
-//                                    System.out.println(l.slopeTo(points[i]) + " " + slope);
-//                                    System.out.println(i  + " " +  j + " " +  n  + " " +  m);
                                     if (l.slopeTo(points[i]) == slope) {
                                         check = false;
                                         break;
                                     }
                                 }
-                                for (double s: slopes) {
+                                for (double s : slopes) {
                                     if (s == slope) {
-                                        check = false;
+                                        lineSegments.pop();
                                         break;
                                     }
                                 }
                                 if (check) {
-                                    lineSegments.enqueue(new LineSegment(points[i], points[j]));
+                                    lineSegments.push(new LineSegment(points[i], points[m]));
                                     storedPoints.enqueue(points[i]);
                                     slopes.enqueue(slope);
                                 }
@@ -74,27 +75,30 @@ public class BruteCollinearPoints {
     }
 
     public static void main(String[] args) {
-//        Point[] ps = new Point[] {new Point(1,2), new Point(2,3), new Point(3,4), new Point(4,5), new Point(5,6)};
-//        BruteCollinearPoints col = new BruteCollinearPoints(ps);
-//        System.out.println(col.numberOfSegments());
-
-        /*
-        System.out.println(args[0]);
-        In in = new In(args[0]);      // input file
-        int n = in.readInt();         // n-by-n percolation system
-        Point[] ps = new Point[n];
-        int m = 0;
-        while (!in.isEmpty()) {
-            int i = in.readInt();
-            int j = in.readInt();
-            ps[m] = new Point(i, j);
-            m++;
+        In in = new In(args[0]);
+        int n = in.readInt();
+        Point[] points = new Point[n];
+        for (int i = 0; i < n; i++) {
+            int x = in.readInt();
+            int y = in.readInt();
+            points[i] = new Point(x, y);
         }
 
-        BruteCollinearPoints col = new BruteCollinearPoints(ps);
-        LineSegment[] segments = col.segments();
-        for (LineSegment s: segments) s.draw();
-        System.out.println("num: " + col.numberOfSegments());
-        */
+        // draw the points
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
+        StdDraw.show();
+
+        // print and draw the line segments
+        BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+        for (LineSegment segment : collinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+        StdDraw.show();
     }
 }
