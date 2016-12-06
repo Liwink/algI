@@ -12,8 +12,9 @@ public class Board {
     private int dim;
 
     public Board(int[][] blocks) {
-        this.blocks = blocks;
+        if (blocks == null) throw new java.lang.NullPointerException();
         dim = blocks.length;
+        this.blocks = blocks;
     }
 
     public int dimension() {
@@ -23,7 +24,7 @@ public class Board {
     public int hamming() {
         int result = 0;
         for (int row = 0; row < dim; row++) {
-            for (int col = 0; col < blocks[0].length; col++) {
+            for (int col = 0; col < blocks[row].length; col++) {
                 result += getHamming(row, col, blocks[row][col]);
             }
         }
@@ -33,7 +34,7 @@ public class Board {
     public int manhattan() {
         int result = 0;
         for (int row = 0; row < dim; row++) {
-            for (int col = 0; col < blocks[0].length; col++) {
+            for (int col = 0; col < blocks[row].length; col++) {
                 result += getManhattan(row, col, blocks[row][col]);
             }
         }
@@ -60,7 +61,7 @@ public class Board {
         Board that = (Board) other;
         if (that.dimension() != this.dimension()) return false;
         for (int row = 0; row < dim; row++) {
-            for (int col = 0; col < blocks[0].length; col++) {
+            for (int col = 0; col < blocks[row].length; col++) {
                 if (that.blocks[row][col] != this.blocks[row][col]) return false;
             }
         }
@@ -73,16 +74,17 @@ public class Board {
         int col = 0;
         // get 0
         for (int r = 0; r < dim; r++) {
-            for (int c = 0; c < blocks[0].length; c++) {
+            for (int c = 0; c < blocks[row].length; c++) {
                 if (blocks[r][c] == 0) {
                     row = r;
                     col = c;
                 }
             }
         }
-        for (int r = row-1; r< row+2; r++) {
+        for (int r = row - 1; r < row + 2; r++) {
             for (int c = col - 1; c < col + 2; c++) {
                 if (!inside(r) || !inside(c)) continue;
+                else if (c == col && r == row) continue;
                 boards.enqueue(new Board(switchBlocks(row, col, r, c)));
             }
         }
@@ -101,7 +103,6 @@ public class Board {
         return s.toString();
     }
 
-
     private boolean inside(int i) {
         return 0 <= i && i <= dim;
     }
@@ -109,7 +110,7 @@ public class Board {
     private int[][] switchBlocks(int ra, int ca, int rb, int cb) {
         int[][] nb = new int[dim][dim];
         for (int row = 0; row < dim; row++) {
-            for (int col = 0; col < blocks[0].length; col++) {
+            for (int col = 0; col < blocks[row].length; col++) {
                 nb[row][col] = blocks[row][col];
             }
         }
@@ -120,11 +121,13 @@ public class Board {
     }
 
     private int getHamming(int row, int col, int point) {
+        if (point == 0) return 0;
         if (row * dim + col == point) return 0;
         else return 1;
     }
 
     private int getManhattan(int row, int col, int point) {
+        if (point == 0) return 0;
         int rowP = point / dim;
         int colP = point - rowP * dim;
         return Math.abs(row - rowP) + Math.abs(col - colP);
