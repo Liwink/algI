@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 import edu.princeton.cs.algs4.Queue;
 
-public class Board {
+public final class Board {
     private final int[][] blocks;
     private int dim;
 

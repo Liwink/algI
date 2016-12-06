@@ -46,6 +46,7 @@ public class Solver {
 
         while (last == null && twinLast == null) {
             last = newTry(pq);
+            if (last != null) break;
             twinLast = newTry(tpq);
         }
     }
@@ -78,11 +79,10 @@ public class Solver {
             return t;
         }
 
-//        Iterator<Board> iterator = t.board.neighbors();
         int s = t.step + 1;
         for (Board b :
                 t.board.neighbors()) {
-            if (t.preTry != null && t.preTry.board == b) continue;
+            if (t.preTry != null && t.preTry.board.equals(b)) continue;
             pq.insert(new Try(t, b, s));
         }
         return null;
