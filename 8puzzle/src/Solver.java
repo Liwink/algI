@@ -6,8 +6,6 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
-//import edu.princeton.cs.algs4.Ite;
-import java.util.Iterator;
 
 public class Solver {
     private Board initial;
@@ -18,6 +16,9 @@ public class Solver {
 
     private MinPQ<Try> pq = new MinPQ<Try>();
     private MinPQ<Try> tpq = new MinPQ<Try>();
+
+    private Try t;
+    private int tmpStep;
 
     private class Try implements Comparable<Try> {
         private int step;
@@ -42,7 +43,6 @@ public class Solver {
 
         pq.insert(new Try(null, initial, 0));
         tpq.insert(new Try(null, twin, 0));
-
 
         while (last == null && twinLast == null) {
             last = newTry(pq);
@@ -73,17 +73,17 @@ public class Solver {
 
     private Try newTry(MinPQ<Try> pq) {
         // is empty?
-        Try t = pq.delMin();
+        t = pq.delMin();
 
         if (t.board.isGoal()) {
             return t;
         }
 
-        int s = t.step + 1;
+        tmpStep = t.step + 1;
         for (Board b :
                 t.board.neighbors()) {
             if (t.preTry != null && t.preTry.board.equals(b)) continue;
-            pq.insert(new Try(t, b, s));
+            pq.insert(new Try(t, b, tmpStep));
         }
         return null;
     }
