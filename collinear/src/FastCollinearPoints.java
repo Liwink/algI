@@ -42,6 +42,7 @@ public class FastCollinearPoints {
             }
         }
 
+        // to judge whether the two pairs is on same line
         public boolean sameLine(PointPair pp) {
             if (this.p1.slopeTo(this.p2) == pp.p1.slopeTo(pp.p2)
                     && this.p2.compareTo(pp.p2) == 0) return true;
@@ -78,7 +79,6 @@ public class FastCollinearPoints {
                     currentCount = COUNT;
                 } else {
                     currentCount--;
-                    boolean check = true;
                     if (currentCount <= 0) {
                         if (currentCount < 0) pointPairs.pop();
                         pointPairs.push(new PointPair(resortPoints[i], resortPoints[j]));
@@ -86,6 +86,8 @@ public class FastCollinearPoints {
                 }
             }
         }
+
+        // to remove the duplicated case for more than 4 points
         PointPair[] pairList = new PointPair[pointPairs.size()];
         int i = 0;
         for (PointPair p :
