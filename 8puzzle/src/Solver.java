@@ -17,9 +17,6 @@ public class Solver {
     private MinPQ<Try> pq = new MinPQ<Try>();
     private MinPQ<Try> tpq = new MinPQ<Try>();
 
-    private Try t;
-    private int tmpStep;
-
     private class Try implements Comparable<Try> {
         private int step;
         private Board board;
@@ -73,13 +70,13 @@ public class Solver {
 
     private Try newTry(MinPQ<Try> pq) {
         // is empty?
-        t = pq.delMin();
+        Try t = pq.delMin();
 
         if (t.board.isGoal()) {
             return t;
         }
 
-        tmpStep = t.step + 1;
+        int tmpStep = t.step + 1;
         for (Board b :
                 t.board.neighbors()) {
             if (t.preTry != null && t.preTry.board.equals(b)) continue;
