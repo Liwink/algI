@@ -8,7 +8,7 @@ import java.util.Iterator;
 import edu.princeton.cs.algs4.Queue;
 
 public class Board {
-    private int[][] blocks;
+    private final int[][] blocks;
     private int dim;
 
     public Board(int[][] blocks) {
@@ -104,7 +104,7 @@ public class Board {
     }
 
     private boolean inside(int i) {
-        return 0 <= i && i <= dim;
+        return 0 <= i && i < dim;
     }
 
     private int[][] switchBlocks(int ra, int ca, int rb, int cb) {
@@ -114,22 +114,22 @@ public class Board {
                 nb[row][col] = blocks[row][col];
             }
         }
-        int tmp = blocks[ra][ca];
-        blocks[ra][ca] = blocks[rb][cb];
-        blocks[rb][cb] = tmp;
-        return blocks;
+        int tmp = nb[ra][ca];
+        nb[ra][ca] = nb[rb][cb];
+        nb[rb][cb] = tmp;
+        return nb;
     }
 
     private int getHamming(int row, int col, int point) {
         if (point == 0) return 0;
-        if (row * dim + col == point) return 0;
+        if (row * dim + col + 1 == point) return 0;
         else return 1;
     }
 
     private int getManhattan(int row, int col, int point) {
         if (point == 0) return 0;
         int rowP = point / dim;
-        int colP = point - rowP * dim;
+        int colP = point - rowP * dim - 1;
         return Math.abs(row - rowP) + Math.abs(col - colP);
     }
 
