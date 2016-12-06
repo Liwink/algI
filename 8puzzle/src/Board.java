@@ -68,7 +68,7 @@ public class Board {
         return true;
     }
 
-    public Iterator<Board> neighbors() {
+    public Iterable<Board> neighbors() {
         Queue<Board> boards = new Queue<Board>();
         int row = 0;
         int col = 0;
@@ -88,7 +88,7 @@ public class Board {
                 boards.enqueue(new Board(switchBlocks(row, col, r, c)));
             }
         }
-        return boards.iterator();
+        return boards;
     }
 
     public String toString() {

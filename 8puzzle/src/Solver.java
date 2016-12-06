@@ -6,17 +6,18 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.Ite;
 import java.util.Iterator;
 
 public class Solver {
-    Board initial;
-    Board twin;
+    private Board initial;
+    private Board twin;
 
-    Try last = null;
-    Try twinLast = null;
+    private Try last = null;
+    private Try twinLast = null;
 
-    MinPQ<Try> pq = new MinPQ<Try>();
-    MinPQ<Try> tpq = new MinPQ<Try>();
+    private MinPQ<Try> pq = new MinPQ<Try>();
+    private MinPQ<Try> tpq = new MinPQ<Try>();
 
     private class Try implements Comparable<Try> {
         private int step;
@@ -58,7 +59,7 @@ public class Solver {
         return last.step;
     }
 
-    public Iterator<Board> solution() {
+    public Iterable<Board> solution() {
         if (last == null) return null;
         Stack<Board> s = new Stack<Board>();
         Try t = last;
@@ -66,7 +67,7 @@ public class Solver {
             s.push(t.board);
             t = t.preTry;
         }
-        return s.iterator();
+        return s;
     }
 
     private Try newTry(MinPQ<Try> pq) {
@@ -77,10 +78,10 @@ public class Solver {
             return t;
         }
 
-        Iterator iterator = t.board.neighbors();
+//        Iterator<Board> iterator = t.board.neighbors();
         int s = t.step + 1;
-        while (iterator.hasNext()) {
-            Board b = (Board) iterator.next();
+        for (Board b:
+             t.board.neighbors()) {
             if (t.preTry != null && t.preTry.board == b) continue;
             pq.insert(new Try(t, b, s));
         }
@@ -106,9 +107,8 @@ public class Solver {
             StdOut.println("No solution possible");
         else {
             StdOut.println("Minimum number of moves = " + solver.moves());
-            Iterator iterator = solver.solution();
-            while (iterator.hasNext()) {
-                Board board = (Board) iterator.next();
+            for (Board board:
+                 solver.solution()) {
                 StdOut.println(board);
             }
         }
