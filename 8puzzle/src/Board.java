@@ -3,18 +3,22 @@
  */
 
 import java.lang.Math;
-import java.util.Iterator;
 
 import edu.princeton.cs.algs4.Queue;
 
-public final class Board {
+public class Board {
     private final int[][] blocks;
-    private int dim;
+    private final int dim;
 
     public Board(int[][] blocks) {
         if (blocks == null) throw new java.lang.NullPointerException();
         dim = blocks.length;
-        this.blocks = blocks;
+        this.blocks = new int[dim][dim];
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < blocks[row].length; col++) {
+                this.blocks[row][col] = blocks[row][col];
+            }
+        }
     }
 
     public int dimension() {
