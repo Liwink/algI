@@ -63,7 +63,7 @@ public class Solver {
         if (last == null) return null;
         Stack<Board> s = new Stack<Board>();
         Try t = last;
-        while (t != null){
+        while (t != null) {
             s.push(t.board);
             t = t.preTry;
         }
@@ -80,8 +80,8 @@ public class Solver {
 
 //        Iterator<Board> iterator = t.board.neighbors();
         int s = t.step + 1;
-        for (Board b:
-             t.board.neighbors()) {
+        for (Board b :
+                t.board.neighbors()) {
             if (t.preTry != null && t.preTry.board == b) continue;
             pq.insert(new Try(t, b, s));
         }
@@ -107,8 +107,8 @@ public class Solver {
             StdOut.println("No solution possible");
         else {
             StdOut.println("Minimum number of moves = " + solver.moves());
-            for (Board board:
-                 solver.solution()) {
+            for (Board board :
+                    solver.solution()) {
                 StdOut.println(board);
             }
         }

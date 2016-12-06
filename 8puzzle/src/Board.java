@@ -49,7 +49,8 @@ public class Board {
         if (dim == 1) {
             return new Board(blocks);
         } else {
-            return new Board(switchBlocks(0, 0, 0, 1));
+            if (blocks[0][0] != 0 && blocks[0][1] != 0) return new Board(switchBlocks(0, 0, 0, 1));
+            else return new Board(switchBlocks(1, 0, 1, 1));
         }
     }
 
@@ -81,12 +82,17 @@ public class Board {
                 }
             }
         }
-        for (int r = row - 1; r < row + 2; r++) {
-            for (int c = col - 1; c < col + 2; c++) {
-                if (!inside(r) || !inside(c)) continue;
-                else if (c == col && r == row) continue;
-                boards.enqueue(new Board(switchBlocks(row, col, r, c)));
-            }
+        if (inside(row - 1) && inside(col)) {
+            boards.enqueue(new Board(switchBlocks(row, col, row - 1, col)));
+        }
+        if (inside(row + 1) && inside(col)) {
+            boards.enqueue(new Board(switchBlocks(row, col, row + 1, col)));
+        }
+        if (inside(row) && inside(col - 1)) {
+            boards.enqueue(new Board(switchBlocks(row, col, row, col - 1)));
+        }
+        if (inside(row) && inside(col + 1)) {
+            boards.enqueue(new Board(switchBlocks(row, col, row, col + 1)));
         }
         return boards;
     }
