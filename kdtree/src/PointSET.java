@@ -24,6 +24,7 @@ public class PointSET {
     }
 
     public void insert(Point2D p) {
+        if (p == null) throw new NullPointerException();
         points.add(p);
     }
 
