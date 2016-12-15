@@ -2,6 +2,8 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.RectHV;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by Liwink on 12/15/16.
  */
@@ -25,6 +27,17 @@ public class KdTree {
             this.y = p.y();
             this.point = p;
         }
+
+        public boolean isRight(Point2D p) {
+            if ((div == 0 && x < p.x()) ||
+                    (div == 1 && y < p.y())) return true;
+            else return false;
+        }
+
+        public double distDiv(Point2D p) {
+            if (div == 0) return abs(x - p.x());
+            else return abs(y - p.y());
+        }
     }
 
     public KdTree() {
@@ -47,8 +60,7 @@ public class KdTree {
         if (root == null) {
             root = child;
             child.div = 0;
-        }
-        else add(root, child);
+        } else add(root, child);
     }
 
     public boolean contains(Point2D p) {
@@ -65,8 +77,8 @@ public class KdTree {
         Queue<Node> queue = new Queue<Node>();
         enqueue(queue, root);
 
-        for (Node n:
-             queue) {
+        for (Node n :
+                queue) {
             n.point.draw();
         }
     }
@@ -78,7 +90,38 @@ public class KdTree {
         return queue;
     }
 
+    public Point2D nearest(Point2D p) {
+        Node near = getNearest(root, p);
+        if (near == null) return null;
+        else return near.point;
+    }
+
     // private method
+
+    private Node getNearest(Node node, Point2D p) {
+        if (node == null) return null;
+        Node first;
+        Node second;
+        Node near;
+
+        if (node.isRight(p)) first = getNearest(node.right, p);
+        else first = getNearest(node.left, p);
+
+        if (first == null ||
+                node.point.distanceTo(p) < first.point.distanceTo(p)) {
+            near = node;
+        } else near = first;
+
+        if (near.point.distanceTo(p) > node.distDiv(p)) {
+            if (node.isRight(p)) second = getNearest(node.left, p);
+            else second = getNearest(node.right, p);
+            if (second != null &&
+                    (second.point.distanceTo(p) < near.point.distanceTo(p))) {
+                near = second;
+            }
+        }
+        return near;
+    }
 
     private void enRange(Queue<Point2D> queue, Node node, RectHV rect) {
         if (node == null) return;
@@ -86,17 +129,14 @@ public class KdTree {
             queue.enqueue(node.point);
             enRange(queue, node.left, rect);
             enRange(queue, node.right, rect);
-        }
-        else {
+        } else {
             if ((node.div == 0 && node.x < rect.xmin()) ||
                     (node.div == 1 && node.y < rect.ymin())) {
                 enRange(queue, node.right, rect);
-            }
-            else if ((node.div == 0 && node.x >= rect.xmax()) ||
+            } else if ((node.div == 0 && node.x >= rect.xmax()) ||
                     (node.div == 1 && node.y >= rect.ymax())) {
                 enRange(queue, node.left, rect);
-            }
-            else {
+            } else {
                 enRange(queue, node.right, rect);
                 enRange(queue, node.left, rect);
             }
