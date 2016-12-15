@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.Queue;
+import edu.princeton.cs.algs4.RectHV;
 
 /**
  * Created by Liwink on 12/15/16.
@@ -70,6 +71,39 @@ public class KdTree {
         }
     }
 
+    public Iterable<Point2D> range(RectHV rect) {
+        Queue<Point2D> queue = new Queue<Point2D>();
+
+        enRange(queue, root, rect);
+        return queue;
+    }
+
+    // private method
+
+    private void enRange(Queue<Point2D> queue, Node node, RectHV rect) {
+        if (node == null) return;
+        if (rect.contains(node.point)) {
+            queue.enqueue(node.point);
+            enRange(queue, node.left, rect);
+            enRange(queue, node.right, rect);
+        }
+        else {
+            if ((node.div == 0 && node.x < rect.xmin()) ||
+                    (node.div == 1 && node.y < rect.ymin())) {
+                enRange(queue, node.right, rect);
+            }
+            else if ((node.div == 0 && node.x >= rect.xmax()) ||
+                    (node.div == 1 && node.y >= rect.ymax())) {
+                enRange(queue, node.left, rect);
+            }
+            else {
+                enRange(queue, node.right, rect);
+                enRange(queue, node.left, rect);
+            }
+        }
+
+    }
+
     private void enqueue(Queue<Node> q, Node node) {
         if (node == null) return;
         q.enqueue(node);
@@ -84,14 +118,14 @@ public class KdTree {
     }
 
     private Node next(Node p, Node c) {
-        if ((p.div == 0 && p.x > c.x) ||
-                (p.div == 1 && p.y > c.y)) return p.right;
+        if ((p.div == 0 && p.x < c.x) ||
+                (p.div == 1 && p.y < c.y)) return p.right;
         else return p.left;
     }
 
     private void append(Node p, Node c) {
-        if ((p.div == 0 && p.x > c.x) ||
-                (p.div == 1 && p.y > c.y)) p.right = c;
+        if ((p.div == 0 && p.x < c.x) ||
+                (p.div == 1 && p.y < c.y)) p.right = c;
         else p.left = c;
         c.div = (p.div + 1) % 2;
     }
