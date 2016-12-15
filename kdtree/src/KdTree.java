@@ -34,6 +34,12 @@ public class KdTree {
             else return false;
         }
 
+        public boolean isRight(Node n) {
+            if ((div == 0 && x < n.x) ||
+                    (div == 1 && y < n.y)) return true;
+            else return false;
+        }
+
         public double distDiv(Point2D p) {
             if (div == 0) return abs(x - p.x());
             else return abs(y - p.y());
@@ -158,14 +164,12 @@ public class KdTree {
     }
 
     private Node next(Node p, Node c) {
-        if ((p.div == 0 && p.x < c.x) ||
-                (p.div == 1 && p.y < c.y)) return p.right;
+        if (p.isRight(c)) return p.right;
         else return p.left;
     }
 
     private void append(Node p, Node c) {
-        if ((p.div == 0 && p.x < c.x) ||
-                (p.div == 1 && p.y < c.y)) p.right = c;
+        if (p.isRight(c)) p.right = c;
         else p.left = c;
         c.div = (p.div + 1) % 2;
     }
