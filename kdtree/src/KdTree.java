@@ -20,7 +20,6 @@ public class KdTree {
         public Node(double x, double y) {
             this.x = x;
             this.y = y;
-//            this.div = div;
         }
     }
 
@@ -46,7 +45,16 @@ public class KdTree {
             child.div = 0;
         }
         else add(root, child);
+    }
 
+    public boolean contains(Point2D p) {
+        Node n = root;
+        Node c = new Node(p.x(), p.y());
+        while (n != null) {
+            if (n.x == c.x && n.y == c.y) return true;
+            else n = next(n, c);
+        }
+        return false;
     }
 
     private void add(Node p, Node c) {
