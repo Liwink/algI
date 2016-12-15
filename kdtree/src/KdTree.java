@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.Queue;
 
 /**
  * Created by Liwink on 12/15/16.
@@ -16,10 +17,12 @@ public class KdTree {
         public Node left;
         public Node right;
         public int div;
+        public Point2D point;
 
-        public Node(double x, double y) {
-            this.x = x;
-            this.y = y;
+        public Node(Point2D p) {
+            this.x = p.x();
+            this.y = p.y();
+            this.point = p;
         }
     }
 
@@ -37,7 +40,7 @@ public class KdTree {
     public void insert(Point2D p) {
         if (p == null) throw new NullPointerException();
 
-        Node child = new Node(p.x(), p.y());
+        Node child = new Node(p);
         size++;
 
         if (root == null) {
@@ -49,12 +52,29 @@ public class KdTree {
 
     public boolean contains(Point2D p) {
         Node n = root;
-        Node c = new Node(p.x(), p.y());
+        Node c = new Node(p);
         while (n != null) {
-            if (n.x == c.x && n.y == c.y) return true;
+            if (n.point.equals(c.point)) return true;
             else n = next(n, c);
         }
         return false;
+    }
+
+    public void draw() {
+        Queue<Node> queue = new Queue<Node>();
+        enqueue(queue, root);
+
+        for (Node n:
+             queue) {
+            n.point.draw();
+        }
+    }
+
+    private void enqueue(Queue<Node> q, Node node) {
+        if (node == null) return;
+        q.enqueue(node);
+        enqueue(q, node.right);
+        enqueue(q, node.left);
     }
 
     private void add(Node p, Node c) {
