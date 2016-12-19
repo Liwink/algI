@@ -12,7 +12,7 @@ import static java.lang.Math.abs;
 public class KdTree {
 
     private Node root;
-    private int size;
+    private int size = 0;
 
     private class Node {
         public double x;
@@ -61,12 +61,15 @@ public class KdTree {
         if (p == null) throw new NullPointerException();
 
         Node child = new Node(p);
-        size++;
 
         if (root == null) {
             root = child;
             child.div = 0;
-        } else add(root, child);
+            size++;
+        }
+        else {
+            if (add(root, child)) size++;
+        }
     }
 
     public boolean contains(Point2D p) {
@@ -157,10 +160,15 @@ public class KdTree {
         enqueue(q, node.left);
     }
 
-    private void add(Node p, Node c) {
+    private boolean add(Node p, Node c) {
+        if (p.point.equals(c.point)) return false;
+
         Node tmp = next(p, c);
-        if (tmp == null) append(p, c);
-        else add(tmp, c);
+        if (tmp == null) {
+            append(p, c);
+            return true;
+        }
+        else return add(tmp, c);
     }
 
     private Node next(Node p, Node c) {

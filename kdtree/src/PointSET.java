@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.Queue;
 
 
 public class PointSET {
-    SET<Point2D> points;
+    private SET<Point2D> points;
 
     public PointSET() {
         points = new SET<Point2D>();
